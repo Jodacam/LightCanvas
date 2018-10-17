@@ -13,6 +13,7 @@ class Vector2 {
 
     /**
      * @returns {number}
+     * Return the module of the vector
      */
     get magnitude() { return Math.sqrt((this.x * this.x) + (this.y * this.y)) }
 
@@ -45,8 +46,9 @@ class Vector2 {
         let vector = new Vector2(deltaX, deltaY);
         return vector.magnitude;
     }
+
     normalize() {
-        if (this.x + this.y == 0) {
+        if (this.magnitude == 0) {
             return 0;
         } else {
             let magnitude = this.magnitude;
@@ -110,9 +112,22 @@ class SpriteObject {
      */
     get velocity() { return this._velocity }
 
+    /**
+     * @param {CanvasRenderingContext2D} renderCanvas 
+     */
     Render(renderCanvas) {
-        renderCanvas.drawImage(this.sprite, this.position.x, this.position.y, this.width, this.height);
+        let xAbsolute = this.position.x+this.width;
+        let yAbsolute = this.position.y+this.height;
+        //We only render if our Object is at the screen
+        if((xAbsolute >=0 && this.position.x <=renderCanvas.canvas.width) && ( this.position.y <= renderCanvas.canvas.height && yAbsolute >= 0) )
+            renderCanvas.drawImage(this.sprite, this.position.x, this.position.y, this.width, this.height);
     }
+
+    /**
+     * 
+     * @param {number} timeDelta 
+     * @param {CanvasRenderingContext2D} hitbox 
+     */
     Update(timeDelta, hitbox) {
         let deltaPos = this.velocity.mult(timeDelta);
         this.position = this.position.add(deltaPos);
@@ -162,14 +177,19 @@ class HitableObject extends SpriteObject {
         console.log(this.name);
     }
 
+    /**
+     
+     * @param {number} timeDelta 
+     * @param {CanvasRenderingContext2D} hitbox 
+     */
     Update(timeDelta, hitbox) {
         super.Update(timeDelta, hitbox);
         hitbox.fillStyle = this.hitColor;
+        
         hitbox.fillRect(this.position.x,this.position.y,this.width,this.height);
     }
 
 }
-
 
 class CanvasManager {
     /**
@@ -177,6 +197,7 @@ class CanvasManager {
      * @param {String} canvasName 
      * @param {number} w 
      * @param {number} h 
+     * 
      */
     constructor(canvasName, w, h) {
         this.canvasElement = document.getElementById(canvasName);
@@ -221,6 +242,7 @@ class CanvasManager {
 
         this.canvasScene.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
         this.hitcanvas.width = this.hitcanvas.width;
+
         for (let objLayer of this.objectList) {
             for (let obj of objLayer) {
                 obj.Render(this.canvasScene);
