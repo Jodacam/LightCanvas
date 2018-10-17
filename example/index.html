@@ -2,43 +2,30 @@
 <head>
     
     <script src = "../source/LightCanvas.js"></script>
+    <script src="example.js"></script>
 </head>    
 <body>
     <style>
         canvas{
-           
+           position: absolute;
         }        
         .canvasContainer{
             position: relative;
             display: inline-block;
-            left: 25%;
+            left: 10%;
         }
         #mycanvas{
-            z-index: 0;
-        }
-        #mycanvas-hitbox{
             z-index: 1;
         }
+        #mycanvas-hitbox{
+            z-index: 0;
+        }
     </style>
-
-
 
     <div class= "canvasContainer">
     <canvas id="mycanvas" width="250" height="250"></canvas>
     <canvas id="mycanvas-hitbox" width="250" height="250"></canvas>
     </div>
-    <script>
-        window.addEventListener("load",function(){
-            let realCanvas = new CanvasManager("mycanvas",600,300);
-            // let object = new SpriteObject("BackGround",new Vector2(0,0),"img/Back.jpeg",300,600);
-            // object.Update = function(){}
-            // realCanvas.addObject(object,0);
-
-            let flecha = new SpriteObject("Flecha",new Vector2(0,50),"img/right-arrow.png",150,150);
-            realCanvas.addObject(flecha,1);
-            realCanvas.Start();
-        });
     
-    </script>
 </body>
 </html>
