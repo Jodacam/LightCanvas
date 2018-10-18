@@ -20,12 +20,12 @@ Update(timeDelta,hitbox){
 window.addEventListener("load",function(){
             
     let realCanvas = new CanvasManager("mycanvas",1280,720);
-    let object = new ScrollObject("BackGround",new Vector2(0,0),"img/Back.jpeg",720,3000);
+    let object = new ScrollObject("BackGround",new Vector2(0,0),"img/Back.jpeg",720,1800);
 
     object.velocity = new Vector2(-3,0);
     realCanvas.AddObject(object,0);
-    let flecha = new HitableObject("Flecha",new Vector2(0,50),"img/right-arrow.png",150,150);
-    let flecha2 = new HitableObject("Flecha2",new Vector2(180,90),"img/right-arrow.png",150,150);
+    let flecha = new HitableObject("Flecha",new Vector2(0,0),"img/right-arrow.png",150,150);
+    let flecha2 = new HitableObject("Flecha2",new Vector2(1180,620),"img/right-arrow.png",100,100);
 
 
     let flecha3 = new HitableObject("Flecha3",new Vector2(0,50),"img/right-arrow.png",150,150);

@@ -1,31 +1,45 @@
 <html>
+
 <head>
-    
-    <script src = "../source/LightCanvas.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="../source/LightCanvas.js"></script>
     <script src="example.js"></script>
-</head>    
+</head>
+
 <body>
     <style>
-        canvas{
-           position: absolute;
-        }        
-        .canvasContainer{
-            position: relative;
-            display: inline-block;
-            left: 0%;
+        canvas {
+            position:absolute;
+            top:0;
+            left:0;
+            width: 100%;
+            height: auto;
         }
-        #mycanvas{
+
+        .canvasContainer {
+              position: relative;
+        }
+
+        #mycanvas {
             z-index: 1;
         }
-        #mycanvas-hitbox{
+
+        #mycanvas-hitbox {
             z-index: 0;
         }
     </style>
-
-    <div class= "canvasContainer">
-    <canvas id="mycanvas" width="250" height="250"></canvas>
-    <canvas id="mycanvas-hitbox" width="250" height="250"></canvas>
+   
+    <div class = "row">
+        <div class="col-sm-2"></div>
+        <div class="canvasContainer col-sm-8">
+            <canvas id="mycanvas" width="1280" height="720"></canvas>
+            <canvas id="mycanvas-hitbox" width="1280" height="720"></canvas>
+        </div>
+        <div class="col-sm-2"></div>
     </div>
     
+    
 </body>
+
 </html>

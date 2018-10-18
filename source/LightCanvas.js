@@ -119,7 +119,7 @@ class SpriteObject {
         let xAbsolute = this.position.x+this.width;
         let yAbsolute = this.position.y+this.height;
         //We only render if our Object is at the screen
-        if((xAbsolute >=0 && this.position.x <=renderCanvas.canvas.width) && ( this.position.y <= renderCanvas.canvas.height && yAbsolute >= 0) )
+       
             renderCanvas.drawImage(this.sprite, this.position.x, this.position.y, this.width, this.height);
     }
 
@@ -201,13 +201,14 @@ class CanvasManager {
      */
     constructor(canvasName, w, h) {
         this.canvasElement = document.getElementById(canvasName);
-        this.canvasElement.width = w;
-        this.canvasElement.height = h;
+        this._targetHeight = h;
+        this._targetWidth = w;
+        this.heightRelation = h/this.canvasElement.height;
+        this.widhthRelation = w/this.canvasElement.width;
+        
         this.canvasScene = this.canvasElement.getContext('2d');
         this.hitcanvas = document.getElementById(canvasName + "-hitbox");
         this.canvasElement.addEventListener("click", this.OnClick.bind(this));
-        this.hitcanvas.width = w;
-        this.hitcanvas.height = h;
         this.hitScene = this.hitcanvas.getContext('2d');
         CanvasManager.actualScene = this.canvasScene;
         this.objectList = [];
@@ -217,6 +218,17 @@ class CanvasManager {
         this.timePased = 0;
         this.clickObjects = new Map();
     }
+    /**
+     * @returns {number}
+     */
+    get targetHeight(){return this._targetHeight}
+    /**
+     * @returns {number}
+     */
+    get targetWidth(){return this._targetWidth}
+
+    set targetHeight(h){this._targetHeight = h}
+    set targetWidth(w){this._targetWidth = w}
 
     static get actualScene() { return _actualScene; }
     static set actualScene(scene) { _actualScene = scene }
@@ -276,11 +288,19 @@ class CanvasManager {
      * @param {MouseEvent} e 
      */
     OnClick(e) {
+
         const mousePos = {
-            y: e.clientY - this.hitcanvas.offsetTop,
+            y: e.clientY - this.hitcanvas.offsetParent.offsetTop,
             x: e.clientX - this.hitcanvas.offsetParent.offsetLeft
         };
 
+        let relationH = this.targetHeight/this.hitcanvas.offsetHeight;
+        let relationW = this.targetWidth/this.hitcanvas.offsetWidth;
+
+        mousePos.x *=relationW;
+        mousePos.y *= relationH; 
+
+        
         const pixel = this.hitScene.getImageData(mousePos.x, mousePos.y, 1, 1).data;
 
         const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
