@@ -1,8 +1,13 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <link href="../bootstrap/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
     <script src="../source/LightCanvas.js"></script>
     <script src="example.js"></script>
 </head>
@@ -11,14 +16,14 @@
     <style>
         canvas {
             position:absolute;
-            top:0;
-            left:0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: auto;
         }
 
         .canvasContainer {
-              position: relative;
+            position: relative;
         }
 
         #mycanvas {
@@ -29,17 +34,24 @@
             z-index: 0;
         }
     </style>
-   
-    <div class = "row">
-        <div class="col-sm-2"></div>
-        <div class="canvasContainer col-sm-8">
+
+    <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"></div>
+        <div class="canvasContainer col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
             <canvas id="mycanvas" width="1280" height="720"></canvas>
             <canvas id="mycanvas-hitbox" width="1280" height="720"></canvas>
         </div>
-        <div class="col-sm-2"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"></div>
     </div>
-    
-    
+
+    <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <canvas id="mycanvas" width="1920" height="1080"></canvas>
+                    <canvas id="mycanvas-hitbox" width="1920" height="1080"></canvas>
+            </div>
+    </div>
+
+
 </body>
 
 </html>
