@@ -297,7 +297,7 @@ class CanvasManager {
         let relationH = this.targetHeight/this.hitcanvas.offsetHeight;
         let relationW = this.targetWidth/this.hitcanvas.offsetWidth;
 
-        mousePos.x *=relationW;
+        mousePos.x *= relationW;
         mousePos.y *= relationH; 
 
         
