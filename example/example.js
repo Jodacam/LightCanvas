@@ -10,7 +10,7 @@ window.addEventListener("load",function(){
     flecha.velocity = new Vector2(0,0);
 
     flecha.OnClick = function(e){
-       this.velocity = this.velocity.add(new Vector2(1,0));
+       this.velocity = this.velocity.add(new Vector2(10,0));
        hitNum+=1;
 
        if(hitNum==2){

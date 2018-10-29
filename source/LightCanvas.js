@@ -192,50 +192,71 @@ class SpriteObject {
 var _actualScene;
 
 class HitableObject extends SpriteObject {
-
     /**
-     * 
-     * @param {String} name 
-     * @param {Vector2} position 
-     * @param {String} imgSrc 
-     * @param {number} height 
-     * @param {number} width 
-     
-     */
+       * 
+       * @param {String} name 
+       * @param {Vector2} position 
+       * @param {String} imgSrc 
+       * @param {number} height 
+       * @param {number} width 
+       
+       */
     constructor(name, position, imgSrc, height, width) {
-        super(name, position, imgSrc, height, width);
-        this._hitColor = "#ffffff";
+      super(name, position, imgSrc, height, width);
+      this._hitColor = "#ffffff";
+      this._activeHit = true;
     }
-
+  
     /**
      * @returns {String}
      */
-    get hitColor() { return this._hitColor }
+    get hitColor() {
+      return this._hitColor;
+    }
     /**
      * @param {String}
      */
-    set hitColor(color) { this._hitColor = color }
-
+    set hitColor(color) {
+      this._hitColor = color;
+    }
+  
+    activate() {
+      this._activeHit = true;
+    }
     /**
-     * 
+     * @param {Bool}
+     */
+    deactivate() {
+      this._activeHit = false;
+    }
+  
+    /**
+     *
      * @param {Object} eventInfo the click info
      */
     OnClick(eventInfo) {
-        console.log(this.name);
+      console.log(this.name);
     }
-
+  
     /**
-     
-     * @param {number} timeDelta 
-     * @param {CanvasRenderingContext2D} hitbox 
-     */
+       
+       * @param {number} timeDelta 
+       * @param {CanvasRenderingContext2D} hitbox 
+       */
     Update(timeDelta, hitbox) {
+      if (this._activeHit) {
         super.Update(timeDelta, hitbox);
         hitbox.fillStyle = this.hitColor;
-        hitbox.fillRect(this.position.x, this.position.y, this.width, this.height);
+  
+        hitbox.fillRect(
+          this.position.x,
+          this.position.y,
+          this.width,
+          this.height
+        );
+      }
     }
-
-}
+  }
 
 class TextObject {
     /**
