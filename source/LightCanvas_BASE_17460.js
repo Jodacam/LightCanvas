@@ -60,37 +60,6 @@ class Vector2 {
 
 }
 
-
-class Animation {
-    constructor(imgSrc,frames,wFrame,hFrame,time){
-        this._image = new Image(wFrame*frames,hFrame*frames);
-        this._image.src = imgSrc;
-        this._frames = frames;
-        this._wFrame = wFrame;
-        this._hFrame = hFrame;
-        this._actualFrame = 0;
-        this._timeFrames = time;
-        this.incrementalTime = 0;
-    }
-
-    /**
-     * @param {CanvasRenderingContext2D} renderCanvas 
-     */
-    RenderFrame(renderCanvas,position){
-        renderCanvas.drawImage(this._image,this._wFrame*this.actualFrame,0,this._wFrame,this._hFrame,position.x,position.y,this._wFrame,this._hFrame);
-        
-    }
-
-    UpdateFrame(deltaTime){
-        this.incrementalTime+=deltaTime;
-        if(this._timeFrames <= this.incrementalTime){
-            this.incrementalTime = 0;
-            this.actualFrame =++this.actualFrame%this._frames;
-        }
-    }
-    get actualFrame(){return this._actualFrame;}
-    set actualFrame(frame) {this._actualFrame = frame;}
-}
 class SpriteObject {
     /**
      * 
@@ -108,24 +77,16 @@ class SpriteObject {
         this.name = name;
         this.sprite = new Image(width, height);
         this.sprite.src = imgSrc;
-        this._active = true;
+
         this.idleSprite = this.sprite;
         this._height = height;
         this._width = width;
 
-        this._animationList = new Map();
-        this._actualAnim = null;
-        this._velocity = new Vector2(0, 0);
-
+        this.animationList = {};
+        this.actualAnim = null;
+        this._velocity = new Vector2(0,0);
+        
     }
-    /**
-     * @returns {Boolean}
-     */
-    get active() { return this._active; }
-    /**
-     * @param {Boolean} active
-     */
-    set active(active) { this._active = active }
 
     /**
      * @returns {number}
@@ -150,22 +111,16 @@ class SpriteObject {
      * @returns {Vector2}
      */
     get velocity() { return this._velocity }
-    /**
-     * @returns {Animation}
-     */
-    get actualAnim(){return this._actualAnim;}
-    set actualAnim(anim){this._actualAnim = anim;}
+
     /**
      * @param {CanvasRenderingContext2D} renderCanvas 
      */
     Render(renderCanvas) {
-        let xAbsolute = this.position.x + this.width;
-        let yAbsolute = this.position.y + this.height;
+        let xAbsolute = this.position.x+this.width;
+        let yAbsolute = this.position.y+this.height;
         //We only render if our Object is at the screen
-        if(this.actualAnim == null)
+       
             renderCanvas.drawImage(this.sprite, this.position.x, this.position.y, this.width, this.height);
-        else
-            this.actualAnim.RenderFrame(renderCanvas,this.position);
     }
 
     /**
@@ -176,20 +131,18 @@ class SpriteObject {
     Update(timeDelta, hitbox) {
         let deltaPos = this.velocity.mult(timeDelta);
         this.position = this.position.add(deltaPos);
-        if(this.actualAnim != null){
-            this.actualAnim.UpdateFrame(timeDelta);
-        }
     }
 
     AddAnimation(animation, name) {
-        this._animationList.set(name,animation);
+        this.animationList[name] = animation;
     }
 
     SetAnimation(name) {
-        this.actualAnim = this._animationList.get(name);
+        this.actualAnim = this.animationList[name];
     }
 }
 var _actualScene;
+
 
 class HitableObject extends SpriteObject {
 
@@ -232,45 +185,9 @@ class HitableObject extends SpriteObject {
     Update(timeDelta, hitbox) {
         super.Update(timeDelta, hitbox);
         hitbox.fillStyle = this.hitColor;
-        hitbox.fillRect(this.position.x, this.position.y, this.width, this.height);
+        
+        hitbox.fillRect(this.position.x,this.position.y,this.width,this.height);
     }
-
-}
-
-class TextObject {
-    /**
-     * 
-     * @param {String} text 
-     * @param {Vector2} pos
-     */
-    constructor(text,pos) {
-        this._position = pos;
-        this._text = text;
-    }
-
-    /**
-     * @returns {String}
-     */
-    get text() { return this._text }
-
-    set text(t) { this._text = t; }
-
-    /**
-     * @returns {Vector2}
-     */
-    get position() { return this._position }
-    set position(pos) { this._position = pos }
-    /**
-     * @param {CanvasRenderingContext2D} renderCanvas 
-     */
-    Render(renderCanvas) {
-        renderCanvas.fillText(this.text,)
-    }
-
-    Update() {
-
-
-     }
 
 }
 
@@ -286,9 +203,9 @@ class CanvasManager {
         this.canvasElement = document.getElementById(canvasName);
         this._targetHeight = h;
         this._targetWidth = w;
-        this.heightRelation = h / this.canvasElement.height;
-        this.widhthRelation = w / this.canvasElement.width;
-
+        this.heightRelation = h/this.canvasElement.height;
+        this.widhthRelation = w/this.canvasElement.width;
+        
         this.canvasScene = this.canvasElement.getContext('2d');
         this.hitcanvas = document.getElementById(canvasName + "-hitbox");
         this.canvasElement.addEventListener("click", this.OnClick.bind(this));
@@ -304,14 +221,14 @@ class CanvasManager {
     /**
      * @returns {number}
      */
-    get targetHeight() { return this._targetHeight }
+    get targetHeight(){return this._targetHeight}
     /**
      * @returns {number}
      */
-    get targetWidth() { return this._targetWidth }
+    get targetWidth(){return this._targetWidth}
 
-    set targetHeight(h) { this._targetHeight = h }
-    set targetWidth(w) { this._targetWidth = w }
+    set targetHeight(h){this._targetHeight = h}
+    set targetWidth(w){this._targetWidth = w}
 
     static get actualScene() { return _actualScene; }
     static set actualScene(scene) { _actualScene = scene }
@@ -332,10 +249,6 @@ class CanvasManager {
             this.clickObjects.set(randomColor, object);
         }
     }
-    AddList(objectList){
-        this.objectList = objectList;
-    }
-
 
     RenderAndUpdate(timeDelta) {
 
@@ -344,10 +257,8 @@ class CanvasManager {
 
         for (let objLayer of this.objectList) {
             for (let obj of objLayer) {
-                if (obj.active) {
-                    obj.Render(this.canvasScene);
-                    obj.Update(timeDelta, this.hitScene);
-                }
+                obj.Render(this.canvasScene);
+                obj.Update(timeDelta, this.hitScene);
             }
 
 
@@ -367,7 +278,7 @@ class CanvasManager {
      * @param {number} timeStamp TimePased
      */
     MainLoop(timeStamp) {
-        let timeDelta = (timeStamp - this.timePased) * 0.001;
+        let timeDelta = (timeStamp - this.timePased) * 0.01;
         this.timePased = timeStamp;
         this.RenderAndUpdate(timeDelta);
         window.requestAnimationFrame(this.MainLoop.bind(this))
@@ -383,13 +294,13 @@ class CanvasManager {
             x: e.clientX - this.hitcanvas.offsetParent.offsetLeft
         };
 
-        let relationH = this.targetHeight / this.hitcanvas.offsetHeight;
-        let relationW = this.targetWidth / this.hitcanvas.offsetWidth;
+        let relationH = this.targetHeight/this.hitcanvas.offsetHeight;
+        let relationW = this.targetWidth/this.hitcanvas.offsetWidth;
 
         mousePos.x *= relationW;
-        mousePos.y *= relationH;
+        mousePos.y *= relationH; 
 
-
+        
         const pixel = this.hitScene.getImageData(mousePos.x, mousePos.y, 1, 1).data;
 
         const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
@@ -410,11 +321,5 @@ class CanvasManager {
         const g = Math.round(Math.random() * 255);
         const b = Math.round(Math.random() * 255);
         return `rgb(${r},${g},${b})`;
-    }
-
-    ClearCanvas() {
-        for (let i = 0; i < 5; i++) {
-            this.objectList[i] = [];
-        }
     }
 }
