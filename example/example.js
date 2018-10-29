@@ -14,7 +14,6 @@ window.addEventListener("load",function(){
        hitNum+=1;
 
        if(hitNum==2){
-        this.velocity = new Vector2(0,0);
         hitNum = 0;
         flecha.deactivate();
         realCanvas.clickObjects.delete(flecha._hitColor);

@@ -236,7 +236,8 @@ class SpriteObject {
 var _actualScene;
 
 class HitableObject extends SpriteObject {
-  /**
+<<<<<<< HEAD
+    /**
        * 
        * @param {String} name 
        * @param {Vector2} position 
@@ -245,12 +246,78 @@ class HitableObject extends SpriteObject {
        * @param {number} width 
        
        */
+    constructor(name, position, imgSrc, height, width) {
+      super(name, position, imgSrc, height, width);
+      this._hitColor = "#ffffff";
+      this._activeHit = true;
+    }
+  
+    /**
+     * @returns {String}
+     */
+    get hitColor() {
+      return this._hitColor;
+    }
+    /**
+     * @param {String}
+     */
+    set hitColor(color) {
+      this._hitColor = color;
+    }
+  
+    activate() {
+      this._activeHit = true;
+    }
+    /**
+     * @param {Bool}
+     */
+    deactivate() {
+      this._activeHit = false;
+    }
+  
+    /**
+     *
+     * @param {Object} eventInfo the click info
+     */
+    OnClick(eventInfo) {
+      console.log(this.name);
+    }
+  
+    /**
+       
+       * @param {number} timeDelta 
+       * @param {CanvasRenderingContext2D} hitbox 
+       */
+    Update(timeDelta, hitbox) {
+      if (this._activeHit) {
+        super.Update(timeDelta, hitbox);
+        hitbox.fillStyle = this.hitColor;
+  
+        hitbox.fillRect(
+          this.position.x,
+          this.position.y,
+          this.width,
+          this.height
+        );
+      }
+    }
+  }
+=======
+  /**
+     * 
+     * @param {String} name 
+     * @param {Vector2} position 
+     * @param {String} imgSrc 
+     * @param {number} height 
+     * @param {number} width 
+     
+     */
   constructor(name, position, imgSrc, height, width) {
     super(name, position, imgSrc, height, width);
     this._hitColor = "#ffffff";
     this._activeHit = true;
   }
-  
+
   /**
    * @returns {String}
    */
@@ -271,24 +338,21 @@ class HitableObject extends SpriteObject {
   deactivate() {
     this._activeHit = false;
   }
-      this._activeHit = false;
-    }
-  
+
   /**
    *
    * @param {Object} eventInfo the click info
    */
   OnClick(eventInfo) {
-      console.log(this.name);
+    console.log(this.name);
   }
-  
+
   /**
-       
-       * @param {number} timeDelta 
-       * @param {CanvasRenderingContext2D} hitbox 
-       */
+     
+     * @param {number} timeDelta 
+     * @param {CanvasRenderingContext2D} hitbox 
+     */
   Update(timeDelta, hitbox) {
-      if (this._activeHit) {
     super.Update(timeDelta, hitbox);
     if (this._activeHit) {
       hitbox.fillStyle = this.hitColor;
@@ -300,15 +364,8 @@ class HitableObject extends SpriteObject {
       );
     }
   }
-        hitbox.fillRect(
-          this.position.x,
-          this.position.y,
-          this.width,
-          this.height
-        );
-      }
-    }
-  }
+}
+>>>>>>> 845803e8fa8e8ada45f66393e52c7e5747c6bd6b
 
 class TextObject {
   /**
