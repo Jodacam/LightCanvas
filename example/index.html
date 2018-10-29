@@ -15,7 +15,6 @@
 <body>
     <style>
         canvas {
-            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -37,9 +36,9 @@
 
     <div class="row">
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"></div>
-        <div class="canvasContainer col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
-            <canvas id="mycanvas" width="1280" height="720"></canvas>
-            <canvas id="mycanvas-hitbox" width="1280" height="720"></canvas>
+        <div class="canvasContainer col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8" style="padding: 0px">
+            <canvas id="mycanvas" width="1280" height="720" style="position: relative"></canvas>
+            <canvas id="mycanvas-hitbox" width="1280" height="720" style="position: absolute;"></canvas>
         </div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"></div>
     </div>
