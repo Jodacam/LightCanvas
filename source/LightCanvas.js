@@ -410,7 +410,11 @@ class CanvasManager {
     }
   }
   AddList(objectList) {
-    this.objectList = objectList;
+        for(let i = 0;i<5;i++){
+            for(let obj of objectList[i]){
+                this.AddObject(obj,i);
+            }
+        }
   }
 
   RenderAndUpdate(timeDelta) {
