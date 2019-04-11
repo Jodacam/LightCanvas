@@ -1,10 +1,12 @@
 //Main Class that handle everything. 
-class LigthCanvas 
+import RenderContext from "./Render/RenderContext"
+
+
+
+export default class LigthCanvas 
 {
-    static Init() {
-        
+    static Create(_renderType,_canvas) {
+        RenderContext.GetContext(_renderType,_canvas);
     }
 }
 
-LigthCanvas.RENDER_MODE_CANVAS = "2d";
-LigthCanvas.RENDER_MODE_WEBGL = "webgl";
